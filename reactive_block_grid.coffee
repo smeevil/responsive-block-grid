@@ -44,8 +44,6 @@ Template.reactiveBlockGrid.rendered = ()->
   options.masonry = masonryOptions unless _.isEmpty(masonryOptions)
 
   $el=$(@find('ul.reactiveBlockGrid'))
-  console.log 'isotope options:'
-  console.table(options)
 
   $el.isotope options
 
