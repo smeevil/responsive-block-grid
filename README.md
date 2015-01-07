@@ -3,6 +3,10 @@
 ### What does it do ?
 
 This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout. 
+### Live demo
+You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com) 
+
+And the source of it here : [https://github.com/smeevil/responsive-block-grid-example](https://github.com/smeevil/responsive-block-grid-example)
 
 ### Block grid preview:
 ![img](https://s3.amazonaws.com/f.cl.ly/items/0R3N3M0q0N3i2P1E0L2B/Screen%20Recording%202015-01-07%20at%2008.07%20pm.gif)
