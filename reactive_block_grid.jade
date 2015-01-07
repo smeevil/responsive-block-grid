@@ -1,0 +1,12 @@
+template(name="reactiveBlockGrid")
+  .reactiveBlockGridElementContainer
+    each cursor
+      +reactiveBlockGridItem
+
+  ul.reactiveBlockGrid(class=cssClasses)
+
+
+template(name="reactiveBlockGridItem")
+  .reactiveBlockGridItemContainer
+    li(data-reactive-block-grid-item-id="#{_id}" data-reactive-block-position="#{position}")
+      +Template.dynamic(template=partial)
