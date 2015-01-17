@@ -39,7 +39,7 @@ Template.reactiveBlockGrid.rendered = ()->
     options[opt] = @data[opt] if @data[opt]?
 
   masonryOptions = {}
-  for opt in ['columnWidth', 'gutter']
+  for opt in ['columnWidth', 'gutter', 'isFitWidth']
     masonryOptions[opt] = @data[opt] if @data[opt]?
   options.masonry = masonryOptions unless _.isEmpty(masonryOptions)
 
