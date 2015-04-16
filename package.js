@@ -13,7 +13,7 @@ Package.onUse(function(api) {
         'underscore@1.0.0',
         'coffeescript@1.0.0',
         'mquandalle:jade@0.4.1',
-        'fourseven:scss@1.0.0',
+        'fourseven:scss@2.1.1',
         'isotope:isotope@2.1.0_1',
         'mrt:jquery-imagesloaded@0.0.2'
       ]
