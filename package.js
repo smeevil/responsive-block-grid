@@ -1,7 +1,7 @@
 Package.describe({
   name: 'smeevil:reactive-block-grid',
   summary: 'Given a cursor and a template this will create a reactive responsive block grid based on isotope',
-  version: '1.0.1',
+  version: '1.0.2',
   git: 'https://github.com/smeevil/responsive-block-grid.git'
 });
 
@@ -13,7 +13,6 @@ Package.onUse(function(api) {
         'underscore@1.0.0',
         'coffeescript@1.0.0',
         'mquandalle:jade@0.4.1',
-        'fourseven:scss@1.0.0',
         'isotope:isotope@2.1.0_1',
         'mrt:jquery-imagesloaded@0.0.2'
       ]
@@ -21,7 +20,7 @@ Package.onUse(function(api) {
   api.add_files([
       'reactive_block_grid.jade',
       'reactive_block_grid.coffee',
-      'reactive_block_grid.sass'
+      'reactive_block_grid.css'
     ], 'client'
   );
 });
