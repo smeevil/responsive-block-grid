@@ -3,10 +3,10 @@ template(name="reactiveBlockGrid")
     each cursor
       +reactiveBlockGridItem
 
-  ul.reactiveBlockGrid(class=cssClasses)
+  ul.reactiveBlockGrid(class=parentClasses)
 
 
 template(name="reactiveBlockGridItem")
   .reactiveBlockGridItemContainer
-    li(data-reactive-block-grid-item-id="#{_id}" data-reactive-block-position="#{position}")
+    li(data-reactive-block-grid-item-id="#{_id}" data-reactive-block-position="#{position}" class=childClasses)
       +Template.dynamic(template=partial)
