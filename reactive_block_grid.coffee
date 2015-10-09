@@ -62,7 +62,7 @@ Template.reactiveBlockGrid.rendered = ()->
 
   if @data.cursor.limit? || @data.cursor.skip?
 
-    @data.cursor.observeChanges
+    @data.observer = @data.cursor.observeChanges
       addedBefore: -> null
       movedBefore: -> null
 
@@ -72,8 +72,11 @@ Template.reactiveBlockGrid.rendered = ()->
         $el.isotope('remove', item).isotope('layout')
 
   else
-    @data.cursor.observe
+    @data.observer = @data.cursor.observe
       removed: (doc) ->
         selector="[data-reactive-block-grid-item-id=#{doc._id}]"
         item=$el.find(selector)
         $el.isotope('remove', item).isotope('layout')
+
+Template.reactiveBlockGrid.onDestroyed ->
+  @data.observer?.stop()
