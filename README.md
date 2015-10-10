@@ -2,9 +2,9 @@
 
 ### What does it do ?
 
-This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout. 
+This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout.
 ### Live demo
-You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com) 
+You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com)
 
 And the source of it here : [https://github.com/smeevil/responsive-block-grid-example](https://github.com/smeevil/responsive-block-grid-example)
 
@@ -33,16 +33,16 @@ The most basic option to use it in your templates is as follows :
 {{> reactiveBlockGrid cursor=myCursor template='myTemplate'}}
 ~~~
 
-To add classes to the generated &lt;ul/&gt; you can pass them using the cssClass option like so :
+To add classes to the generated `<ul>` and `<li>`; you can pass them using the parentClass and childClass options like so :
 ~~~js
-{{> reactiveBlockGrid cursor=myCursor template='myTemplate' cssClass='small-block-grid-3 medium-block-grid-6'}}
+{{> reactiveBlockGrid cursor=myCursor template='myTemplate' parentClass='medium-block-grid-12' childClass='medium-block-grid-3'}}
 ~~~
 
 
 
 **Options:**
 
-You can pass the following isotope options to the template:  transitionDuration, layoutMode, gutter, columnWidth. Please look at the [isotope read me](http://isotope.metafizzy.co) for more information on these options.
+You can pass the following isotope options to the template:  transitionDuration, layoutMode, gutter, columnWidth, and percentPosition. Please look at the [isotope read me](http://isotope.metafizzy.co) for more information on these options.
 
 **Full example:**
 ~~~js

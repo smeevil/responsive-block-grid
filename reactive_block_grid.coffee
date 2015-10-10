@@ -6,6 +6,9 @@ Template.reactiveBlockGridItem.helpers
     idMap=Template.parentData(1).cursor.fetch().map (i)-> i._id
     _.indexOf(idMap, @_id)
 
+  childClasses: ->
+    Template.parentData(1).childClass
+
 Template.reactiveBlockGridItem.rendered = ->
   $ul=Template.parentData(1).reactiveBlockGrid
   if $ul?.data 'isotope-initialized'
@@ -23,8 +26,8 @@ Template.reactiveBlockGrid.helpers
   cursor: ->
     @cursor
 
-  cssClasses: ->
-    @cssClass
+  parentClasses: ->
+    @parentClass or @cssClass
 
 Template.reactiveBlockGrid.rendered = ()->
   options={
@@ -39,7 +42,7 @@ Template.reactiveBlockGrid.rendered = ()->
     options[opt] = @data[opt] if @data[opt]?
 
   masonryOptions = {}
-  for opt in ['columnWidth', 'gutter', 'isFitWidth']
+  for opt in ['columnWidth', 'gutter', 'isFitWidth', 'percentPosition']
     masonryOptions[opt] = @data[opt] if @data[opt]?
   options.masonry = masonryOptions unless _.isEmpty(masonryOptions)
 
@@ -59,7 +62,7 @@ Template.reactiveBlockGrid.rendered = ()->
 
   if @data.cursor.limit? || @data.cursor.skip?
 
-    @data.cursor.observeChanges
+    @data.observer = @data.cursor.observeChanges
       addedBefore: -> null
       movedBefore: -> null
 
@@ -69,8 +72,11 @@ Template.reactiveBlockGrid.rendered = ()->
         $el.isotope('remove', item).isotope('layout')
 
   else
-    @data.cursor.observe
+    @data.observer = @data.cursor.observe
       removed: (doc) ->
         selector="[data-reactive-block-grid-item-id=#{doc._id}]"
         item=$el.find(selector)
         $el.isotope('remove', item).isotope('layout')
+
+Template.reactiveBlockGrid.onDestroyed ->
+  @data.observer?.stop()
