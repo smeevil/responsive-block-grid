@@ -8,5 +8,5 @@ template(name="reactiveBlockGrid")
 
 template(name="reactiveBlockGridItem")
   .reactiveBlockGridItemContainer
-    li(data-reactive-block-grid-item-id="#{_id}" data-reactive-block-position="#{position}" class=childClasses)
+    li(data-reactive-block-grid-item-id="#{_id}" data-reactive-block-position="#{position}" class=childClasses $dyn=filterProperties)
       +Template.dynamic(template=partial)

@@ -9,7 +9,14 @@ Template.reactiveBlockGridItem.helpers
   childClasses: ->
     Template.parentData(1).childClass
 
-Template.reactiveBlockGridItem.rendered = ->
+  filterProperties: ->
+    filterProperties = Template.parentData(1).filterProperties
+    filterProperties.split(',').reduce((obj, property) =>
+      obj["data-reactive-block-grid-property-#{property}"] = @[property]
+      obj
+    , {})
+
+Template.reactiveBlockGridItem.onRendered ->
   $ul=Template.parentData(1).reactiveBlockGrid
   if $ul?.data 'isotope-initialized'
     li=$(this.find('li'))
@@ -29,7 +36,7 @@ Template.reactiveBlockGrid.helpers
   parentClasses: ->
     @parentClass or @cssClass
 
-Template.reactiveBlockGrid.rendered = ()->
+Template.reactiveBlockGrid.onRendered ->
   options={
     itemSelector: 'li'
     sortBy: 'reactiveBlockPosition'
@@ -77,6 +84,11 @@ Template.reactiveBlockGrid.rendered = ()->
         selector="[data-reactive-block-grid-item-id=#{doc._id}]"
         item=$el.find(selector)
         $el.isotope('remove', item).isotope('layout')
+
+  if @data.filter
+    this.autorun =>
+      $el.isotope
+        filter: @data.filter.get()
 
 Template.reactiveBlockGrid.onDestroyed ->
   @data.observer?.stop()
