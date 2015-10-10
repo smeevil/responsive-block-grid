@@ -10,6 +10,7 @@ Package.onUse(function(api) {
   api.use(
       [
         'templating',
+        'reactive-var',
         'underscore@1.0.0',
         'coffeescript@1.0.0',
         'mquandalle:jade@0.4.1',
