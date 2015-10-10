@@ -87,8 +87,14 @@ Template.reactiveBlockGrid.onRendered ->
 
   if @data.filter
     this.autorun =>
+      filterObj = @data.filter.get()
+      filter = _.keys(filterObj).map (property) ->
+        "[data-reactive-block-grid-property-#{property}=\"#{filterObj[property]}\"]"
+
+      console.log(filter);
+
       $el.isotope
-        filter: @data.filter.get()
+        filter: if filter then filter.join('') else '*'
 
 Template.reactiveBlockGrid.onDestroyed ->
   @data.observer?.stop()
