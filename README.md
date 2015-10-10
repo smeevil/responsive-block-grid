@@ -42,7 +42,7 @@ To add classes to the generated `<ul>` and `<li>`; you can pass them using the p
 
 **Options:**
 
-You can pass the following isotope options to the template:  transitionDuration, layoutMode, gutter, columnWidth. Please look at the [isotope read me](http://isotope.metafizzy.co) for more information on these options.
+You can pass the following isotope options to the template:  transitionDuration, layoutMode, gutter, columnWidth, and percentPosition. Please look at the [isotope read me](http://isotope.metafizzy.co) for more information on these options.
 
 **Full example:**
 ~~~js
