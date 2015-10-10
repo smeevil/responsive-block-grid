@@ -2,9 +2,9 @@
 
 ### What does it do ?
 
-This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout. 
+This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout.
 ### Live demo
-You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com) 
+You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com)
 
 And the source of it here : [https://github.com/smeevil/responsive-block-grid-example](https://github.com/smeevil/responsive-block-grid-example)
 
@@ -39,6 +39,46 @@ To add classes to the generated &lt;ul/&gt; you can pass them using the cssClass
 ~~~
 
 
+
+Meteor produces a new cursor when a helper is updated reactively, so any collection filtering on the frontend must use Isotope's filtering functionality, and not Meteor's.
+
+Reactivity can still be taken advantage of, however, if a reactive var containing an Isotope-style CSS selector is passed to this plugin using a helper. This will then select over properties made available to that selector by the filterProperties list. The filterProperties list shouldn't contain spaces between the separators. Be sure to return a reference to the same reactive var, and not a reference to a new one in the helper.
+
+~~~js
+var reactiveFilter = new ReactiveVar({
+  property1: true,
+  property2: 'value'
+});
+
+Template.myParentTemplate.helpers({
+  myCursor: function () {
+    return Collection.find({});
+  },
+  myFilter: function () {
+    return reactiveFilter;
+  }
+});
+
+Template.myParentTemplate.events({
+  'click button': function () {
+    reactiveFilter.set({
+      property1: false,
+      property2: 'value'
+    });
+  }
+});
+~~~
+
+~~~js
+<button>Filter toggle</button>
+
+{{> reactiveBlockGrid
+  cursor=myCursor
+  template='myTemplate'
+  filterProperties="property1,property2"
+  filter=myFilter
+}}
+~~~
 
 **Options:**
 
