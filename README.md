@@ -62,7 +62,7 @@ Template.myParentTemplate.helpers({
 Template.myParentTemplate.events({
   'click button': function () {
     reactiveFilter.set({
-      property1: false,
+      property1: !reactiveFilter.get().property1,
       property2: 'value'
     });
   }
