@@ -6,13 +6,22 @@ Template.reactiveBlockGridItem.helpers
     idMap=Template.parentData(1).cursor.fetch().map (i)-> i._id
     _.indexOf(idMap, @_id)
 
-Template.reactiveBlockGridItem.rendered = ->
+  childClasses: ->
+    Template.parentData(1).childClass
+
+  filterProperties: ->
+    _.keys(Template.parentData(1).filter.get()).reduce((obj, property) =>
+      obj["data-reactive-block-grid-property-#{property}"] = @[property]
+      obj
+    , {})
+
+Template.reactiveBlockGridItem.onRendered ->
   $ul=Template.parentData(1).reactiveBlockGrid
   if $ul?.data 'isotope-initialized'
     li=$(this.find('li'))
     $ul.isotope('insert', li)
 
-    setTimeout ->
+    Meteor.setTimeout ->
       $ul.isotope('updateSortData').isotope()
     , 100
 
@@ -23,10 +32,10 @@ Template.reactiveBlockGrid.helpers
   cursor: ->
     @cursor
 
-  cssClasses: ->
-    @cssClass
+  parentClasses: ->
+    @parentClass or @cssClass
 
-Template.reactiveBlockGrid.rendered = ()->
+Template.reactiveBlockGrid.onRendered ->
   options={
     itemSelector: 'li'
     sortBy: 'reactiveBlockPosition'
@@ -39,7 +48,7 @@ Template.reactiveBlockGrid.rendered = ()->
     options[opt] = @data[opt] if @data[opt]?
 
   masonryOptions = {}
-  for opt in ['columnWidth', 'gutter', 'isFitWidth']
+  for opt in ['columnWidth', 'gutter', 'isFitWidth', 'percentPosition']
     masonryOptions[opt] = @data[opt] if @data[opt]?
   options.masonry = masonryOptions unless _.isEmpty(masonryOptions)
 
@@ -59,7 +68,7 @@ Template.reactiveBlockGrid.rendered = ()->
 
   if @data.cursor.limit? || @data.cursor.skip?
 
-    @data.cursor.observeChanges
+    @data.observer = @data.cursor.observeChanges
       addedBefore: -> null
       movedBefore: -> null
 
@@ -69,8 +78,22 @@ Template.reactiveBlockGrid.rendered = ()->
         $el.isotope('remove', item).isotope('layout')
 
   else
-    @data.cursor.observe
+    @data.observer = @data.cursor.observe
       removed: (doc) ->
         selector="[data-reactive-block-grid-item-id=#{doc._id}]"
         item=$el.find(selector)
         $el.isotope('remove', item).isotope('layout')
+
+  if @data.filter
+    this.autorun =>
+      filterObj = @data.filter.get()
+      filter = _.keys(filterObj).map (property) ->
+        "[data-reactive-block-grid-property-#{property}=\"#{filterObj[property]}\"]"
+
+      Meteor.setTimeout ->
+        $el.isotope
+          filter: if filter then filter.join('') else '*'
+      , 100
+
+Template.reactiveBlockGrid.onDestroyed ->
+  @data.observer?.stop()

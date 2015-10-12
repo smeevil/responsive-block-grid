@@ -2,9 +2,9 @@
 
 ### What does it do ?
 
-This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout. 
+This plugin will create a reactive [Isotope](http://isotope.metafizzy.co) masonry for you. If you update or filter your collection/cursor it will be automatically reflected in the layout.
 ### Live demo
-You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com) 
+You can find a live demo here : [http://smeevil-responsive-block-grid.meteor.com](http://smeevil-responsive-block-grid.meteor.com)
 
 And the source of it here : [https://github.com/smeevil/responsive-block-grid-example](https://github.com/smeevil/responsive-block-grid-example)
 
@@ -33,16 +33,56 @@ The most basic option to use it in your templates is as follows :
 {{> reactiveBlockGrid cursor=myCursor template='myTemplate'}}
 ~~~
 
-To add classes to the generated &lt;ul/&gt; you can pass them using the cssClass option like so :
+To add classes to the generated `<ul>` and `<li>`; you can pass them using the parentClass and childClass options like so :
 ~~~js
-{{> reactiveBlockGrid cursor=myCursor template='myTemplate' cssClass='small-block-grid-3 medium-block-grid-6'}}
+{{> reactiveBlockGrid cursor=myCursor template='myTemplate' parentClass='medium-block-grid-12' childClass='medium-block-grid-3'}}
 ~~~
 
 
 
+Meteor produces a new cursor when a helper is updated reactively, so any collection filtering on the frontend must use Isotope's filtering functionality, and not Meteor's.
+
+Reactivity can still be taken advantage of, however, if a reactive var containing an object containing the properties and values to be filtered by, in the local template instance context. This can be passed to this plugin via a helper. Be sure to return a reference to the same reactive var, and not a reference to a new one in the helper.
+
+~~~js
+var reactiveFilter = new ReactiveVar({
+  property1: true,
+  property2: 'value'
+});
+
+Template.myParentTemplate.helpers({
+  myCursor: function () {
+    return Collection.find({});
+  },
+  myFilter: function () {
+    return reactiveFilter;
+  }
+});
+
+Template.myParentTemplate.events({
+  'click button': function () {
+    reactiveFilter.set({
+      property1: !reactiveFilter.get().property1,
+      property2: 'value'
+    });
+  }
+});
+~~~
+
+~~~js
+<button>Filter toggle</button>
+
+{{> reactiveBlockGrid
+  cursor=myCursor
+  template='myTemplate'
+  filterProperties="property1,property2"
+  filter=myFilter
+}}
+~~~
+
 **Options:**
 
-You can pass the following isotope options to the template:  transitionDuration, layoutMode, gutter, columnWidth. Please look at the [isotope read me](http://isotope.metafizzy.co) for more information on these options.
+You can pass the following isotope options to the template:  transitionDuration, layoutMode, gutter, columnWidth, and percentPosition. Please look at the [isotope read me](http://isotope.metafizzy.co) for more information on these options.
 
 **Full example:**
 ~~~js
