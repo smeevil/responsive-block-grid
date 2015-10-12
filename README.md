@@ -42,7 +42,7 @@ To add classes to the generated `<ul>` and `<li>`; you can pass them using the p
 
 Meteor produces a new cursor when a helper is updated reactively, so any collection filtering on the frontend must use Isotope's filtering functionality, and not Meteor's.
 
-Reactivity can still be taken advantage of, however, if a reactive var containing an Isotope-style CSS selector is passed to this plugin using a helper. This will then select over properties made available to that selector by the filterProperties list. The filterProperties list shouldn't contain spaces between the separators. Be sure to return a reference to the same reactive var, and not a reference to a new one in the helper.
+Reactivity can still be taken advantage of, however, if a reactive var containing an object containing the properties and values to be filtered by, in the local template instance context. This can be passed to this plugin via a helper. Be sure to return a reference to the same reactive var, and not a reference to a new one in the helper.
 
 ~~~js
 var reactiveFilter = new ReactiveVar({

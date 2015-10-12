@@ -10,8 +10,7 @@ Template.reactiveBlockGridItem.helpers
     Template.parentData(1).childClass
 
   filterProperties: ->
-    filterProperties = Template.parentData(1).filterProperties
-    filterProperties.split(',').reduce((obj, property) =>
+    _.keys(Template.parentData(1).filter.get()).reduce((obj, property) =>
       obj["data-reactive-block-grid-property-#{property}"] = @[property]
       obj
     , {})
@@ -22,7 +21,7 @@ Template.reactiveBlockGridItem.onRendered ->
     li=$(this.find('li'))
     $ul.isotope('insert', li)
 
-    setTimeout ->
+    Meteor.setTimeout ->
       $ul.isotope('updateSortData').isotope()
     , 100
 
@@ -91,8 +90,10 @@ Template.reactiveBlockGrid.onRendered ->
       filter = _.keys(filterObj).map (property) ->
         "[data-reactive-block-grid-property-#{property}=\"#{filterObj[property]}\"]"
 
-      $el.isotope
-        filter: if filter then filter.join('') else '*'
+      Meteor.setTimeout ->
+        $el.isotope
+          filter: if filter then filter.join('') else '*'
+      , 100
 
 Template.reactiveBlockGrid.onDestroyed ->
   @data.observer?.stop()
