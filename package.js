@@ -1,7 +1,7 @@
 Package.describe({
   name: 'smeevil:reactive-block-grid',
   summary: 'Given a cursor and a template this will create a reactive responsive block grid based on isotope',
-  version: '1.0.2',
+  version: '1.0.3',
   git: 'https://github.com/smeevil/responsive-block-grid.git'
 });
 
