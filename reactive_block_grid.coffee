@@ -26,6 +26,11 @@ Template.reactiveBlockGrid.helpers
   cssClasses: ->
     @cssClass
 
+Template.reactiveBlockGrid.destroyed = ()->
+  if @queryHandle
+    @queryHandle.stop()
+    @queryHandle = null
+
 Template.reactiveBlockGrid.rendered = ()->
   options={
     itemSelector: 'li'
@@ -59,7 +64,7 @@ Template.reactiveBlockGrid.rendered = ()->
 
   if @data.cursor.limit? || @data.cursor.skip?
 
-    @data.cursor.observeChanges
+    @queryHandle = @data.cursor.observeChanges
       addedBefore: -> null
       movedBefore: -> null
 
@@ -69,7 +74,7 @@ Template.reactiveBlockGrid.rendered = ()->
         $el.isotope('remove', item).isotope('layout')
 
   else
-    @data.cursor.observe
+    @queryHandle = @data.cursor.observe
       removed: (doc) ->
         selector="[data-reactive-block-grid-item-id=#{doc._id}]"
         item=$el.find(selector)
